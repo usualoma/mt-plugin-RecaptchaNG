@@ -1,0 +1,29 @@
+id: RecaptchaNG
+name: RecaptchaNG
+version: 0.0.1
+
+description: <__trans phrase="This plugin enables you to apply reCAPTCHA v3.">
+author_name: Taku Amano
+author_link: http://blog.taaas.jp/
+plugin_link: http://blog.taaas.jp/mt/mt-plugin-RecaptchaNG/
+
+l10n_lexicon:
+  ja:
+    This plugin enables you to apply reCAPTCHA v3.: "reCAPTCHAのv2以降を適用できるようにします。"
+    Parameter Key: "パラメータ"
+    Secret Key: "シークレットキー"
+    Failed to verify reCAPTCHA token.: "reCAPTCHAのトークンの検証に失敗しました"
+
+settings:
+  recaptchang_parameter_key:
+    Default: "recaptcha-token"
+  recaptchang_secret:
+    Default: ""
+  recaptchang_apps:
+    Default: ""
+
+config_template: recaptchang_system_config.tmpl
+
+callbacks:
+  init_request: $RecaptchaNG::MT::Plugin::RecaptchaNG::init_request
+  MT::App::CMS::template_source.recaptchang_system_config: $RecaptchaNG::MT::Plugin::RecaptchaNG::template_source_recaptchang_system_config

@@ -1,0 +1,64 @@
+<style type="text/css">
+.recaptchang_app ~ div {
+  display: none;
+}
+.recaptchang_app:checked ~ div {
+  display: block;
+}
+</style>
+
+<mtapp:setting
+  id="recaptchang_parameter_key"
+  label="<__trans phrase="Parameter Key">"
+>
+<input type="text" id="recaptchang_parameter_key" name="recaptchang_parameter_key" value="<mt:Var name="recaptchang_parameter_key" encode_html="1"/>" class="form-control" />
+</mtapp:setting>
+
+<mtapp:setting
+  id="recaptchang_secret"
+  label="<__trans phrase="Secret Key">"
+>
+<input type="text" id="recaptchang_secret" name="recaptchang_secret" value="<mt:Var name="recaptchang_secret" encode_html="1"/>" class="form-control" />
+</mtapp:setting>
+
+<mtapp:setting
+  id="recaptchang_apps"
+  label="<__trans phrase="Apps">"
+>
+<input type="hidden" id="recaptchang_apps" name="recaptchang_apps" value="<mt:Var name="recaptchang_apps" encode_html="1"/>" />
+<ul class="list-unstyled">
+<mt:Loop name="apps">
+<li>
+<input type="checkbox" name="recaptchang_app" id="recaptchang_app_<mt:Var name="__value__"/>" value="<mt:Var name="__value__"/>" class="recaptchang_app"/> <label for="recaptchang_app_<mt:Var name="__value__"/>"><mt:Var name="__value__"/></label><div class="recaptchang_app_modes"><input type="text" name="recaptchang_app_modes" id="recaptchang_app_mode_<mt:Var name="__value__"/>" placeholder="mode1,mode2,..." /></div>
+</label></li>
+</mt:Loop>
+</ul>
+</mtapp:setting>
+
+<script>
+jQuery(function($) {
+  var $input = $("#recaptchang_apps");
+  var $apps = $('input[name="recaptchang_app"],input[name="recaptchang_app_modes"]');
+
+  $apps.on("change", function() {
+    var data = {};
+    jQuery.makeArray(jQuery('input[name="recaptchang_app"]').filter(":checked")).map(function(e) { return e.value }).forEach(function(app) {
+      data[app] = {};
+      jQuery('#recaptchang_app_mode_' + app).val().split(',').forEach(function(m) {
+        data[app][m] = true;
+      });
+    });
+    $input.val(JSON.stringify(data));
+  });
+
+  var currentData = JSON.parse($input.val() || '{}');
+  for (k in currentData) {
+    $('input[name="recaptchang_app"][value="' + k + '"]').prop("checked", true);
+    var modes = [];
+    for (m in currentData[k]) {
+      modes.push(m);
+    }
+    $('#recaptchang_app_mode_' + k).val(modes.join(","));
+  }
+});
+</script>
