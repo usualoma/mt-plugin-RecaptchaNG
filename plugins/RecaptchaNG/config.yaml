@@ -1,6 +1,6 @@
 id: RecaptchaNG
 name: RecaptchaNG
-version: 0.0.1
+version: 0.0.2
 
 description: <__trans phrase="This plugin enables you to apply reCAPTCHA v3.">
 author_name: Taku Amano
@@ -22,7 +22,7 @@ settings:
   recaptchang_apps:
     Default: ""
 
-config_template: recaptchang_system_config.tmpl
+system_config_template: recaptchang_system_config.tmpl
 
 callbacks:
   init_request: $RecaptchaNG::MT::Plugin::RecaptchaNG::init_request
